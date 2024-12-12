@@ -148,7 +148,7 @@ const Home = () => {
             })
         } else {
             gsap.to(vehiclePanelRef.current, {
-                transform: 'translateY(100%)'
+                transform: 'translateY(100vh)'
             })
         }
     }, [ vehiclePanel ])
@@ -160,7 +160,7 @@ const Home = () => {
             })
         } else {
             gsap.to(confirmRidePanelRef.current, {
-                transform: 'translateY(100%)'
+                transform: 'translateY(100vh)'
             })
         }
     }, [ confirmRidePanel ])
@@ -172,7 +172,7 @@ const Home = () => {
             })
         } else {
             gsap.to(vehicleFoundRef.current, {
-                transform: 'translateY(100%)'
+                transform: 'translateY(100vh)'
             })
         }
     }, [ vehicleFound ])
@@ -180,13 +180,11 @@ const Home = () => {
     useGSAP(function () {
         if (waitingForDriver) {
             gsap.to(waitingForDriverRef.current, {
-                opacity : 1,
-                transform: 'translateY(0)', //correct it
+                transform: 'translateY(0)'
             })
         } else {
             gsap.to(waitingForDriverRef.current, {
-                // transform: 'translateY(-500)'
-                opacity : 0
+                transform: 'translateY(100vh)'
             })
         }
     }, [ waitingForDriver ])
