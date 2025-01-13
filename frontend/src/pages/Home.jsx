@@ -83,7 +83,6 @@ const Home = () => {
     });
   });
 
-<<<<<<< HEAD
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
     if (e.target.value.length >= 3) {
@@ -92,142 +91,6 @@ const Home = () => {
           `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
           {
             params: { input: e.target.value },
-=======
-    socket.on('ride-confirmed', ride => {
-        setVehicleFound(false)
-        setWaitingForDriver(true)
-        setRide(ride)
-    })
-
-    socket.on('ride-started', ride => {
-        setWaitingForDriver(false)
-        navigate('/riding', {
-            state: {
-                ride,
-                pos : currentPosition
-            } 
-        }) // Updated navigate to include ride data
-    })
-
-
-    const handlePickupChange = async (e) => {
-        setPickup(e.target.value)
-        if(e.target.value.length >= 3){
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
-                    params: { input: e.target.value },
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-    
-                })
-                setPickupSuggestions(response.data)
-            } catch {
-                // handle error
-            }
-        }
-    }
-
-    const handleDestinationChange = async (e) => {
-        setDestination(e.target.value)
-        if(e.target.value.length >= 3){
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
-                    params: { input: e.target.value },
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                })
-                setDestinationSuggestions(response.data)
-            } catch {
-                // handle error
-            }
-        }
-    }
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-    }
-
-    useGSAP(function () {
-        if (panelOpen) {
-            gsap.to(panelRef.current, {
-                height: '70%',
-                paddingLeft: 29,
-                paddingRight: 29,
-                paddingTop : 42
-                // opacity:1
-            })
-            gsap.to(panelCloseRef.current, {
-                opacity: 1
-            })
-        } else {
-            gsap.to(panelRef.current, {
-                height: '0%',
-                padding: 0
-                // opacity:0
-            })
-            gsap.to(panelCloseRef.current, {
-                opacity: 0
-            })
-        }
-    }, [ panelOpen ])
-
-    useGSAP(function () {
-        if (vehiclePanel) {
-            gsap.to(vehiclePanelRef.current, {
-                transform: 'translateY(0)'
-            })
-        } else {
-            gsap.to(vehiclePanelRef.current, {
-                transform: 'translateY(100vh)'
-            })
-        }
-    }, [ vehiclePanel ])
-
-    useGSAP(function () {
-        if (confirmRidePanel) {
-            gsap.to(confirmRidePanelRef.current, {
-                transform: 'translateY(0)'
-            })
-        } else {
-            gsap.to(confirmRidePanelRef.current, {
-                transform: 'translateY(100vh)'
-            })
-        }
-    }, [ confirmRidePanel ])
-
-    useGSAP(function () {
-        if (vehicleFound) {
-            gsap.to(vehicleFoundRef.current, {
-                transform: 'translateY(0)'
-            })
-        } else {
-            gsap.to(vehicleFoundRef.current, {
-                transform: 'translateY(100vh)'
-            })
-        }
-    }, [ vehicleFound ])
-
-    useGSAP(function () {
-        if (waitingForDriver) {
-            gsap.to(waitingForDriverRef.current, {
-                transform: 'translateY(0)'
-            })
-        } else {
-            gsap.to(waitingForDriverRef.current, {
-                transform: 'translateY(100vh)'
-            })
-        }
-    }, [ waitingForDriver ])
-
-    async function findTrip() {
-        setVehiclePanel(true)
-        setPanelOpen(false)
-
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
-            params: { pickup, destination },
->>>>>>> 296a04dee01447c41c9350cebbc9f035683f20c9
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -289,7 +152,6 @@ const Home = () => {
     [panelOpen]
   );
 
-<<<<<<< HEAD
   useGSAP(
     function () {
       if (vehiclePanel) {
@@ -304,35 +166,6 @@ const Home = () => {
     },
     [vehiclePanel]
   );
-=======
-                    <h4 className='text-2xl font-semibold'>Find a trip</h4>
-                    <form className='relative py-4' onSubmit={(e) => {
-                        submitHandler(e)
-                    }}>
-                        <div className="line absolute h-16 w-1 top-[50%] -translate-y-1/2 left-5 bg-gray-900 rounded-full"></div>
-                        <input
-                            onClick={() => {
-                                setPanelOpen(true)
-                                setActiveField('pickup')
-                            }}
-                            value={pickup}
-                            onChange={handlePickupChange}
-                            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full'
-                            type="text"
-                            placeholder='Add a pick-up location'
-                        />
-                        <input
-                            onClick={() => {
-                                setPanelOpen(true)
-                                setActiveField('destination')
-                            }}
-                            value={destination}
-                            onChange={handleDestinationChange}
-                            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full  mt-3'
-                            type="text"
-                            placeholder='Enter your destination' />
-                    </form>
->>>>>>> 296a04dee01447c41c9350cebbc9f035683f20c9
 
   useGSAP(
     function () {
@@ -497,7 +330,6 @@ const Home = () => {
           </button>
         </div>
 
-<<<<<<< HEAD
         <div ref={panelRef} className="bg-white h-0 overflow-auto mb-1">
           <LocationSearchPanel
             suggestions={
@@ -569,6 +401,3 @@ const Home = () => {
 };
 
 export default Home;
-=======
-export default Home
->>>>>>> 296a04dee01447c41c9350cebbc9f035683f20c9
