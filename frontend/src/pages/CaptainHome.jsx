@@ -22,12 +22,18 @@ const CaptainHome = () => {
     const { socket } = useContext(SocketContext)
     const { captain } = useContext(CaptainDataContext)
 
+    const [location, setLocation] = useState({ lat: null, lng: null });
+
+    
     useEffect(() => {
-        
         socket.emit('join', {
             userId: captain._id,
             userType: 'captain'
-        })
+        });
+    }, [socket, captain._id]);
+    
+    
+    useEffect(() => {
         const updateLocation = () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
@@ -45,15 +51,35 @@ const CaptainHome = () => {
 
         const locationInterval = setInterval(updateLocation, 10000)
         updateLocation()
+        return () => clearInterval(locationInterval)
 
-        // return () => clearInterval(locationInterval)
-    }, [])
+    }, [captain._id, socket])
 
-    socket.on('new-ride', (data) => {
-        setRide(data)
-        setRidePopupPanel(true)
+    useEffect(() => {
+        // Define an async function inside the effect
+        const getLocationAndEmit = async () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const { latitude, longitude } = position.coords;
+                    setLocation({ lat: latitude, lng: longitude });
+                });
+            }
+        };
+    
+        // Call the async function immediately
+        getLocationAndEmit();
+    }, []);
 
-    })
+    useEffect(() => {
+        socket.on('new-ride', (data) => {
+            setRide(data);
+            setRidePopupPanel(true);
+        });
+
+        return () => {
+            socket.off('new-ride'); // Clean up listener when component unmounts
+        };
+    }, [socket]);
 
     async function confirmRide() {
 
@@ -99,13 +125,11 @@ const CaptainHome = () => {
         <div className='h-screen relative overflow-hidden'>
             <img className='w-16 absolute left-5 top-5' src="uber-logo.png" alt="" style={{ zIndex : ridePopupPanel || confirmRidePopupPanel ? 0 : 1000, pointerEvents: "none" }}/>
                 
-                {/* <Link to='/captain-home' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
+                <Link to='/captain-logout' style={{zIndex: ridePopupPanel || confirmRidePopupPanel ? 0 : 1000}} className='absolute top-3 right-3 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
                     <i className="text-lg font-medium ri-logout-box-r-line"></i>
-                </Link> */}
+                </Link>
             <div className={`w-screen relative h-3/5 ${ridePopupPanel || confirmRidePopupPanel ? "z-0" : ""}`}>
                 <LiveTracking />
-                {/* <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> */}
-
             </div>
             <div className='h-2/5 p-6'>
                 <CaptainDetails />

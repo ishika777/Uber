@@ -1,4 +1,6 @@
 import React from 'react'
+import LineAnimation from './LineAnimation'
+import BlueBackgroundAnimation from './BlueBackgroundAnimation'
 
 const LookingForDriver = (props) => {
     return (
@@ -8,10 +10,14 @@ const LookingForDriver = (props) => {
                 props.setVehicleFound(false)
             }}
             ><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
-            <h3 className='text-2xl font-semibold mb-5'>Looking for a Driver</h3>
+            <h3 className='text-xl font-semibold mb-5 text-center'>Looking for nearby drivers</h3>
 
+            <LineAnimation />
             <div className='flex gap-2 justify-between flex-col items-center'>
-                <img className='h-20' src="car.jpg" alt="" />
+                <BlueBackgroundAnimation>
+
+                <img className='h-[5.9rem]' src="car.png" alt="" />
+                </BlueBackgroundAnimation>
                 <div className='w-full mt-5'>
                     <div className='flex items-center gap-5 p-3 border-b-2'>
                         <i className="ri-map-pin-user-fill"></i>

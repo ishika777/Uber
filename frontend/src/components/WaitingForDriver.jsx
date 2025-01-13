@@ -10,7 +10,7 @@ const WaitingForDriver = (props) => {
       ><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
 
       <div className='flex items-center justify-between'>
-        <img className='h-12' src="car.jpg" alt="" />
+        <img className='h-12' src="car.p" alt="" />
         <div className='text-right'>
           <h2 className='text-lg font-medium capitalize'>
             {props.ride?.captain?.fullname?.firstname}

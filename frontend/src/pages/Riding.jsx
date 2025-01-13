@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom' // Added useLocation
-import { useEffect, useContext } from 'react'
+import { useContext } from 'react'
 import { SocketContext } from '../context/SocketContext'
 import { useNavigate } from 'react-router-dom'
 import LiveTracking from '../components/LiveTracking'
@@ -27,7 +27,7 @@ const Riding = () => {
             </div>
             <div className='h-1/2 p-4'>
                 <div className='flex items-center justify-between'>
-                    <img className='h-12' src="car.jpg" alt="" />
+                    <img className='h-12' src="car.png" alt="" />
                     <div className='text-right'>
                         <h2 className='text-lg font-medium capitalize'>
                             {ride?.captain?.fullname.firstname}

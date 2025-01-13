@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -13,37 +13,31 @@ const ConfirmRidePopUp = (props) => {
     const submitHander = async (e) => {
         e.preventDefault()
 
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
-            params: {
-                rideId: props.ride._id,
-                otp: otp
-            },
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        })
-
-        if (response.status === 201) {
-
-            // if(navigator.geolocation){
-            //     navigator.geolocation.getCurrentPosition((position) => {
-            //         const { latitude, longitude } = position.coords;
-                    
-            //     });
-            // }
-
-
-            props.setConfirmRidePopupPanel(false)
-            props.setRidePopupPanel(false)
-            navigate('/captain-riding', { 
-                state: { 
-                    ride: props.ride ,
-                    // pos : currentPosition
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+                params: {
+                    rideId: props.ride._id,
+                    otp: otp
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
+    
+            if (response.status === 201) {
+    
+                props.setConfirmRidePopupPanel(false)
+                props.setRidePopupPanel(false)
+                navigate('/captain-riding', { 
+                    state: { 
+                        ride: props.ride ,
+                        // pos : currentPosition
+                    }
+                })
+            }
+        } catch (error) {
+            console.log(error)
         }
-
-
     }
     return (
         <div>

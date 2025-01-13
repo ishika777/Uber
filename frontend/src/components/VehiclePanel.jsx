@@ -13,7 +13,7 @@ const VehiclePanel = (props) => {
                 props.selectVehicle('car')
             }} 
             className='flex border-2 active:border-black  mb-2 rounded-xl w-full p-3  items-center justify-between'>
-                <img className='h-10' src="car.jpg" alt="" />
+                <img className='h-10' src="car.png" alt="" />
                 <div className='ml-2 w-1/2'>
                     <h4 className='font-medium text-base'>UberGo <span><i className="ri-user-3-fill"></i>4</span></h4>
                     <h5 className='font-medium text-sm'>2 mins away </h5>
