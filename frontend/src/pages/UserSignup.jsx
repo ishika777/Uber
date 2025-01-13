@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+
 import { UserDataContext } from '../context/UserContext'
 
 
@@ -16,7 +17,7 @@ const UserSignup = () => {
 
 
 
-  const { user, setUser } = useContext(UserDataContext)
+  const { setUser } = useContext(UserDataContext)
 
 
 

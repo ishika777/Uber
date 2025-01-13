@@ -3,16 +3,20 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import axios from "axios";
 import "remixicon/fonts/remixicon.css";
+import { Link, useNavigate } from "react-router-dom";
+
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
 import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
+import LiveTracking from "../components/LiveTracking";
+
+
 import { SocketContext } from "../context/SocketContext";
 import { useContext } from "react";
 import { UserDataContext } from "../context/UserContext";
-import { Link, useNavigate } from "react-router-dom";
-import LiveTracking from "../components/LiveTracking";
+
 
 const Home = () => {
     const [pickup, setPickup] = useState("");

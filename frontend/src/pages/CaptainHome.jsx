@@ -1,14 +1,16 @@
 import React, { useRef, useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import CaptainDetails from '../components/CaptainDetails'
-import RidePopUp from '../components/RidePopUp'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import axios from 'axios'
+
+import CaptainDetails from '../components/CaptainDetails'
+import RidePopUp from '../components/RidePopUp'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
+import LiveTracking from "../components/LiveTracking"
+
 import { SocketContext } from '../context/SocketContext'
 import { CaptainDataContext } from '../context/CaptainContext'
-import axios from 'axios'
-import LiveTracking from "../components/LiveTracking"
 
 const CaptainHome = () => {
 
