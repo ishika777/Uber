@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { CaptainDataContext } from '../context/CaptainContext'
+import toast from 'react-hot-toast'
 
 const Captainlogin = () => {
 
@@ -21,18 +22,23 @@ const Captainlogin = () => {
       password
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, sendData)
-
-    if (response.status === 200) {
-
-      const data = response.data
-      setCaptain(data.captain)
-      localStorage.setItem('token', data.token)
-      navigate('/captain-home')
-
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, sendData)
+    
+        if (response.status === 200) {
+    
+          const data = response.data
+          setCaptain(data.captain)
+          localStorage.setItem('token', data.token)
+          navigate('/captain-home')
+    
+        }
+        setEmail('')
+        setPassword('')
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message || error.response.data.errors[0].msg)
     }
-    setEmail('')
-    setPassword('')
   }
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>

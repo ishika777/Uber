@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 
 import Start from "./pages/Start";
 import UserLogin from "./pages/UserLogin";
@@ -20,6 +21,15 @@ import CaptainLogout from "./pages/CaptainLogout.jsx";
 const App = () => {
   return (
     <div>
+        <Toaster
+            position="bottom-right"
+            toastOptions={{
+                duration : 1500,
+                style : {
+                    marginBottom : "20px"
+                }
+            }}
+        />
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/login" element={<UserLogin />} />

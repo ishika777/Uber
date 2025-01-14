@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast';
 
 
 const FinishRide = (props) => {
@@ -9,18 +10,22 @@ const FinishRide = (props) => {
     const navigate = useNavigate()
 
     async function endRide() {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
 
-            rideId: props.ride._id
-
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
+                rideId: props.ride._id
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            if (response.status === 200) {
+                navigate('/captain-home')
             }
-        })
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.message || error.response.data.errors[0].msg)
 
-        if (response.status === 200) {
-            navigate('/captain-home')
         }
 
     }

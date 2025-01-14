@@ -16,6 +16,7 @@ import LiveTracking from "../components/LiveTracking";
 import { SocketContext } from "../context/SocketContext";
 import { useContext } from "react";
 import { UserDataContext } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 
 const Home = () => {
@@ -99,8 +100,9 @@ const Home = () => {
                     }
                 );
                 setPickupSuggestions(response.data);
-            } catch {
-                // handle error
+            } catch(error) {
+                console.log(error)
+                toast.error(error.response.data.message || error.response.data.errors[0].msg)
             }
         }
     };
@@ -119,8 +121,9 @@ const Home = () => {
                     }
                 );
                 setDestinationSuggestions(response.data);
-            } catch {
-                // handle error
+            } catch(error) {
+                console.log(error)
+                toast.error(error.response.data.message || error.response.data.errors[0].msg)
             }
         }
     };
@@ -218,32 +221,43 @@ const Home = () => {
         setVehiclePanel(true);
         setPanelOpen(false);
 
-        const response = await axios.get(
-            `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
-            {
-                params: { pickup, destination },
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-        setFare(response.data);
+        try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+                {
+                    params: { pickup, destination },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+            setFare(response.data);
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.message || error.response.data.errors[0].msg)
+        }
+
     }
 
     async function createRide() {
-        const response = await axios.post(
-            `${import.meta.env.VITE_BASE_URL}/rides/create`,
-            {
-                pickup,
-                destination,
-                vehicleType,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+        try {     
+            const response = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/rides/create`,
+                {
+                    pickup,
+                    destination,
+                    vehicleType,
                 },
-            }
-        );
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message)
+        }
     }
 
     return (

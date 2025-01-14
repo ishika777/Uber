@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { UserDataContext } from '../context/UserContext'
+import toast from 'react-hot-toast'
 
 const UserLogin = () => {
 
@@ -23,17 +24,23 @@ const UserLogin = () => {
       password: password
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
-
-    if (response.status === 200) {
-      const data = response.data
-      setUser(data.user)
-      localStorage.setItem('token', data.token)
-      navigate('/home')
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+        if (response.status === 200) {
+            console.log(response)
+          const data = response.data
+          setUser(data.user)
+          localStorage.setItem('token', data.token)
+          navigate('/home')
+          toast.success("Logged in successfully")
+        }
+    
+        setEmail('')
+        setPassword('')
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message || error.response.data.errors[0].msg)
     }
-
-    setEmail('')
-    setPassword('')
   }
 
   return (

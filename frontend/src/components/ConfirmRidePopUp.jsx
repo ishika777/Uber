@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast';
 
 import { SocketContext } from '../context/SocketContext'
 
@@ -37,6 +38,8 @@ const ConfirmRidePopUp = (props) => {
             }
         } catch (error) {
             console.log(error)
+            toast.error(error.response.data.message || error.response.data.errors[0].msg)
+            
         }
     }
     return (

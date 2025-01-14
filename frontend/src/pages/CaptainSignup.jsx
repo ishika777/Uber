@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 import { CaptainDataContext } from '../context/CaptainContext'
 
@@ -40,23 +41,29 @@ const CaptainSignup = () => {
       }
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
-
-    if (response.status === 201) {
-      const data = response.data
-      setCaptain(data.captain)
-      localStorage.setItem('token', data.token)
-      navigate('/captain-home')
+    try {     
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
+    
+        if (response.status === 201) {
+          const data = response.data
+          setCaptain(data.captain)
+          localStorage.setItem('token', data.token)
+          navigate('/captain-home')
+        }
+    
+        setEmail('')
+        setFirstName('')
+        setLastName('')
+        setPassword('')
+        setVehicleColor('')
+        setVehiclePlate('')
+        setVehicleCapacity('')
+        setVehicleType('')
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message || error.response.data.errors[0].msg)
     }
 
-    setEmail('')
-    setFirstName('')
-    setLastName('')
-    setPassword('')
-    setVehicleColor('')
-    setVehiclePlate('')
-    setVehicleCapacity('')
-    setVehicleType('')
 
   }
   return (

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { UserDataContext } from '../context/UserContext'
+import toast from 'react-hot-toast'
 
 const UserProtectWrapper = ({
     children
@@ -30,6 +31,7 @@ const UserProtectWrapper = ({
                 }
             } catch (error) {
                 console.log(err)
+                toast.error(error.response.data.message || error.response.data.errors[0].msg)
                 localStorage.removeItem('token')
                 navigate('/login')
             }

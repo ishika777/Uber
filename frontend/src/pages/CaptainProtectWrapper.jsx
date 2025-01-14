@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { CaptainDataContext } from '../context/CaptainContext'
+import toast from 'react-hot-toast'
 
 const CaptainProtectWrapper = ({
     children
@@ -35,6 +36,8 @@ const CaptainProtectWrapper = ({
                     setIsLoading(false)
                 }
             } catch (error) {
+                console.log(error)
+                toast.error(error.response.data.message || error.response.data.errors[0].msg)
                 localStorage.removeItem('token')
                 navigate('/captain-login')
             }

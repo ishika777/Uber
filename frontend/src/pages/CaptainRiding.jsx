@@ -17,9 +17,9 @@ const CaptainRiding = () => {
     const { socket } = useContext(SocketContext)
     // const position = location.state?.pos
 
-    socket.on('send-location', data => {
+    // socket.on('send-location', data => {
         
-    })
+    // })
 
     useGSAP(function () {
         if (finishRidePanel) {
@@ -44,7 +44,7 @@ const CaptainRiding = () => {
                 </Link>
             </div> */}
             
-            <div className='h-screen fixed w-screen top-0'>
+            <div className={`h-[80%] w-screen top-0 ${finishRidePanel ? "z-0" : "" }`}>
                 <LiveTracking />
             </div>
 
@@ -62,9 +62,6 @@ const CaptainRiding = () => {
                     ride={rideData}
                     setFinishRidePanel={setFinishRidePanel} />
             </div>
-
-            
-
         </div>
     )
 }

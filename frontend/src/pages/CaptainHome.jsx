@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import axios from 'axios'
+import toast from 'react-hot-toast';
 
 import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopUp'
@@ -85,14 +86,19 @@ const CaptainHome = () => {
 
     async function confirmRide() {
 
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
-            rideId: ride._id,
-            captainId: captain._id,
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        })
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+                rideId: ride._id,
+                captainId: captain._id,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.message || error.response.data.errors[0].msg)
+        }
 
         setRidePopupPanel(false)
         setConfirmRidePopupPanel(true)
