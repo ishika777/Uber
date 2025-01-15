@@ -27,8 +27,7 @@ export const CaptainLogout = () => {
                 toast.error(
                     error.response?.data?.message ||
                     error.response?.data?.errors?.[0]?.msg ||
-                    'Something went wrong.'
-                );
+                    error.message);
             }
         };
 

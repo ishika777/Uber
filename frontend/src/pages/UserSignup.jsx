@@ -52,7 +52,7 @@ const UserSignup = () => {
         setLoading(false);
       console.log(error);
       toast.error(
-        error.response.data.message || error.response.data.errors[0].msg
+        error.response?.data.message || error.response?.data.errors[0].msg || error.message
       );
     }finally{
         setLoading(false);

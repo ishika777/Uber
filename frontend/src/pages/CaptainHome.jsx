@@ -15,7 +15,7 @@ import { CaptainDataContext } from '../context/CaptainContext'
 
 const CaptainHome = () => {
 
-    const [ ridePopupPanel, setRidePopupPanel ] = useState(false)
+    const [ ridePopupPanel, setRidePopupPanel ] = useState(true)
     const [ confirmRidePopupPanel, setConfirmRidePopupPanel ] = useState(false)
 
     const ridePopupPanelRef = useRef(null)
@@ -97,7 +97,7 @@ const CaptainHome = () => {
             })
         } catch (error) {
             console.log(error)
-            toast.error(error.response.data.message || error.response.data.errors[0].msg)
+            toast.error(error.response?.data.message || error.response?.data.errors[0].msg || error.message)
         }
 
         setRidePopupPanel(false)

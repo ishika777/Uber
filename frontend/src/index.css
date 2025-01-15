@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hide-scroll{
+    scroll-behavior: smooth;
+}
+.hide-scroll::-webkit-scrollbar{
+    visibility: hidden;
+}
