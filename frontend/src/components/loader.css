@@ -8,7 +8,6 @@
   }
   
   .spin {
-    font-size: 4rem;
     display: inline-block; 
     animation: spin 1s linear infinite; 
   }

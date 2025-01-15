@@ -13,7 +13,7 @@ const UserLogin = () => {
   const [password, setPassword] = useState("");
   const { setUser } = useContext(UserDataContext);
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const submitHandler = async (e) => {
     e.preventDefault();

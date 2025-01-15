@@ -4,7 +4,6 @@ import axios from 'axios'
 
 import { CaptainDataContext } from '../context/CaptainContext'
 import toast from 'react-hot-toast'
-import Loader from '../components/Loader'
 import PageLoader from '../components/PageLoader'
 
 const CaptainProtectWrapper = ({
@@ -17,7 +16,6 @@ const CaptainProtectWrapper = ({
     const [ isLoading, setIsLoading ] = useState(true)
 
     useEffect(() => {
-
         if (!token) {
             navigate('/captain-login')
             return;
@@ -44,15 +42,11 @@ const CaptainProtectWrapper = ({
         fetchData();
     }, [ token ])
 
-    
-
     if (isLoading) {
         return (
             <div><PageLoader /></div>
         )
     }
-
-
 
     return (
         <>

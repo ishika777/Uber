@@ -1,6 +1,10 @@
 import React from 'react'
+import Loader from './Loader'
 
 const ConfirmRide = (props) => {
+
+    // const [loading, setLoading] = useState(false);
+
     return (
         <div>
             <h5 className='p-1 text-center w-[93%] absolute top-0' onClick={() => {props.setConfirmRidePanel(false)}}>
@@ -33,12 +37,24 @@ const ConfirmRide = (props) => {
                         </div>
                     </div>
                 </div>
-                <button onClick={() => {
+                {props.loading ? (
+            <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
+              <Loader /> Please Wait...
+            </button>
+          ) : (
+            <button onClick={async() => {
+                await props.createRide()
+                props.setVehicleFound(true)
+                props.setConfirmRidePanel(false)
+
+            }} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button>
+          )}
+                {/* <button onClick={async() => {
+                    await props.createRide()
                     props.setVehicleFound(true)
                     props.setConfirmRidePanel(false)
-                    props.createRide()
 
-                }} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button>
+                }} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button> */}
             </div>
         </div>
     )

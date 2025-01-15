@@ -249,8 +249,9 @@ const Home = () => {
     }
 
     async function createRide() {
-        try {     
-            const response = await axios.post(
+        try {
+            setLoading(true);
+            await axios.post(
                 `${import.meta.env.VITE_BASE_URL}/rides/create`,
                 {
                     pickup,
@@ -264,8 +265,11 @@ const Home = () => {
                 }
             );
         } catch (error) {
+            setLoading(false);
             console.log(error)
             toast.error(error.message)
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -386,6 +390,7 @@ const Home = () => {
             >
                 <ConfirmRide
                     createRide={createRide}
+                    loading={loading}
                     pickup={pickup}
                     destination={destination}
                     fare={fare}
@@ -399,7 +404,6 @@ const Home = () => {
                 className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12 rounded-tl-3xl rounded-tr-3xl"
             >
                 <LookingForDriver
-                    createRide={createRide}
                     pickup={pickup}
                     destination={destination}
                     fare={fare}
