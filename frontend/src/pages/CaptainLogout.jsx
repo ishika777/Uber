@@ -1,28 +1,39 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import "remixicon/fonts/remixicon.css";
 
-export const CaptainLogout = async () => {
+export const CaptainLogout = () => {
 
     const token = localStorage.getItem('captain-token')
     const navigate = useNavigate()
 
-    try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
-            headers: {
-                Authorization: `Bearer ${token}`
+    useEffect(() => {
+        const logoutCaptain = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+
+                if (response.status === 200) {
+                    localStorage.removeItem('captain-token')
+                    navigate('/captain-login')
+                }
+            } catch (error) {
+                console.error(error); // Log error to console
+                toast.error(
+                    error.response?.data?.message ||
+                    error.response?.data?.errors?.[0]?.msg ||
+                    'Something went wrong.'
+                );
             }
-        })
-        if (response.status === 200) {
-            localStorage.removeItem('captain-token')
-            navigate('/captain-login')
-        }
-    } catch (error) {
-        console.log(error)
-        toast.error(error.response.data.message || error.response.data.errors[0].msg)
-    }
+        };
+
+        logoutCaptain(); // Call the logout function
+    }, []); // Add dependencies to the effect
 
 
     return (

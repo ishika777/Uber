@@ -9,7 +9,6 @@ const UserLogout = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
-        // Function to handle user logout
         const logoutUser = async () => {
             try {
                 const response = await axios.get(
@@ -22,7 +21,6 @@ const UserLogout = () => {
                 );
 
                 if (response.status === 200) {
-                    // If successful, clear the token and navigate to login
                     localStorage.removeItem('token');
                     navigate('/login');
                 }
@@ -37,7 +35,7 @@ const UserLogout = () => {
         };
 
         logoutUser(); // Call the logout function
-    }, [navigate, token]); // Add dependencies to the effect
+    }, []); // Add dependencies to the effect
 
     return <div>UserLogout</div>; // Render JSX
 };

@@ -39,7 +39,7 @@ const ConfirmRide = (props) => {
                 </div>
                 {props.loading ? (
             <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
-              <Loader /> Please Wait...
+              <Loader /> Confirming your ride...
             </button>
           ) : (
             <button onClick={async() => {
