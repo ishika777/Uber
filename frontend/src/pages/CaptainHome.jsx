@@ -112,7 +112,7 @@ const CaptainHome = () => {
             })
         } else {
             gsap.to(ridePopupPanelRef.current, {
-                transform: 'translateY(100%)'
+                transform: 'translateY(100vh)'
             })
         }
     }, [ ridePopupPanel ])
@@ -124,7 +124,7 @@ const CaptainHome = () => {
             })
         } else {
             gsap.to(confirmRidePopupPanelRef.current, {
-                transform: 'translateY(100%)'
+                transform: 'translateY(100vh)'
             })
         }
     }, [ confirmRidePopupPanel ])
@@ -142,7 +142,7 @@ const CaptainHome = () => {
             <div className='h-2/5 p-6'>
                 <CaptainDetails />
             </div>
-            <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 rounded-tl-3xl rounded-tr-3xl'>
+            <div ref={ridePopupPanelRef} className='fixed w-full max-h-screen h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 rounded-tl-3xl rounded-tr-3xl'>
                 <RidePopUp
                     ride={ride}
                     setRidePopupPanel={setRidePopupPanel}
@@ -150,7 +150,7 @@ const CaptainHome = () => {
                     confirmRide={confirmRide}
                 />
             </div>
-            <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 rounded-tl-3xl rounded-tr-3xl'>
+            <div ref={confirmRidePopupPanelRef} className='fixed w-full max-h-screen h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 rounded-tl-3xl rounded-tr-3xl'>
                 <ConfirmRidePopUp
                     ride={ride}
                     setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
