@@ -11,7 +11,7 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(UserDataContext);
+  const { setUser } = useContext(UserDataContext);
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
 

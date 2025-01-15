@@ -3,15 +3,18 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast';
+import Loader from './Loader';
 
 
 const FinishRide = (props) => {
 
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
 
     async function endRide() {
 
         try {
+            setLoading(true);
             const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
                 rideId: props.ride._id
             }, {
@@ -23,9 +26,11 @@ const FinishRide = (props) => {
                 navigate('/captain-home')
             }
         } catch (error) {
+            setLoading(false);
             console.log(error)
             toast.error(error.response.data.message || error.response.data.errors[0].msg)
-
+        }finally{
+            setLoading(false);
         }
 
     }
@@ -78,11 +83,21 @@ const FinishRide = (props) => {
 
                 <div className='mt-10 w-full'>
 
+                {loading ? (
+            <button  onClick={endRide} className="w-full mt-5 flex  text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
+            <Loader /> Please Wait...
+         </button>
+          ) : (
+            <button  onClick={endRide} className="w-full mt-5 flex  text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
+               Finish Ride
+            </button>
+          )}
+{/* 
                     <Link to="/captain-home"
                         onClick={endRide}
                         className='w-full mt-5 flex  text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>
                             Finish Ride
-                    </Link>
+                    </Link> */}
 
 
                 </div>

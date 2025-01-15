@@ -5,6 +5,7 @@ import axios from 'axios'
 import { UserDataContext } from '../context/UserContext'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader'
+import PageLoader from '../components/PageLoader'
 
 const UserProtectWrapper = ({
     children
@@ -43,7 +44,7 @@ const UserProtectWrapper = ({
 
     if (isLoading) {
         return (
-            <div><Loader /></div>
+            <div ><PageLoader /></div>
         )
     }
 
