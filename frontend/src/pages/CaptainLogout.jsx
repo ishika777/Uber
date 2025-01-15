@@ -2,13 +2,14 @@ import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import "remixicon/fonts/remixicon.css";
 
 export const CaptainLogout = async () => {
+
     const token = localStorage.getItem('captain-token')
     const navigate = useNavigate()
 
     try {
-        
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
             headers: {
                 Authorization: `Bearer ${token}`

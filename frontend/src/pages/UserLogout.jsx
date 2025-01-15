@@ -1,34 +1,45 @@
-import React, { useEffect } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import "remixicon/fonts/remixicon.css";
 
-export const UserLogout = async () => {
+const UserLogout = () => {
+    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    const navigate = useNavigate(); // Initialize useNavigate
 
-    const token = localStorage.getItem('token')
-    const navigate = useNavigate()
+    useEffect(() => {
+        // Function to handle user logout
+        const logoutUser = async () => {
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/users/logout`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
-    // useEffect(async() => {
-    //     try {
-    //         const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         })
-    //         if (response.status === 200) {
-    //             localStorage.removeItem('token')
-    //             navigate('/login')
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //         toast.error(error.response.data.message || error.response.data.errors[0].msg)
-    //     }
-    // }, [])
+                if (response.status === 200) {
+                    // If successful, clear the token and navigate to login
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                }
+            } catch (error) {
+                console.error(error); // Log error to console
+                toast.error(
+                    error.response?.data?.message ||
+                    error.response?.data?.errors?.[0]?.msg ||
+                    'Something went wrong.'
+                );
+            }
+        };
 
+        logoutUser(); // Call the logout function
+    }, [navigate, token]); // Add dependencies to the effect
 
-    return (
-        <div>UserLogout</div>
-    )
-}
+    return <div>UserLogout</div>; // Render JSX
+};
 
-export default UserLogout
+export default UserLogout;

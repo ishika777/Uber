@@ -4,21 +4,23 @@ import axios from 'axios'
 
 import { UserDataContext } from '../context/UserContext'
 import toast from 'react-hot-toast'
+import Loader from '../components/Loader'
 
 const UserProtectWrapper = ({
     children
 }) => {
+    
     const token = localStorage.getItem('token')
     const navigate = useNavigate()
-    const { user, setUser } = useContext(UserDataContext)
+    const { setUser } = useContext(UserDataContext)
     const [ isLoading, setIsLoading ] = useState(true)
 
     useEffect(() => {
+        if (!token) {
+            navigate('/login')
+            return
+        }
         const fetchData = async() => {
-            if (!token) {
-                navigate('/login')
-                return
-            }
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
                     headers: {
@@ -30,7 +32,7 @@ const UserProtectWrapper = ({
                     setIsLoading(false)
                 }
             } catch (error) {
-                console.log(err)
+                console.log(error)
                 toast.error(error.response.data.message || error.response.data.errors[0].msg)
                 localStorage.removeItem('token')
                 navigate('/login')
@@ -41,7 +43,7 @@ const UserProtectWrapper = ({
 
     if (isLoading) {
         return (
-            <div>Loading...</div>
+            <div><Loader /></div>
         )
     }
 

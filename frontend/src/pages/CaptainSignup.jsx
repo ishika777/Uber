@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import "remixicon/fonts/remixicon.css";
 
 import { CaptainDataContext } from '../context/CaptainContext'
+import Loader from '../components/Loader'
 
 const CaptainSignup = () => {
 
@@ -21,7 +23,10 @@ const CaptainSignup = () => {
   const [ vehicleType, setVehicleType ] = useState('')
 
 
-  const { captain, setCaptain } = React.useContext(CaptainDataContext)
+
+  const { setCaptain } = React.useContext(CaptainDataContext)
+  const token = localStorage.getItem('captain-token')
+  const [loading, setLoading] = useState(false);
 
 
   const submitHandler = async (e) => {
@@ -41,13 +46,13 @@ const CaptainSignup = () => {
       }
     }
 
-    try {     
+    try {   
+        setLoading(true);  
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
-    
         if (response.status === 201) {
           const data = response.data
           setCaptain(data.captain)
-          localStorage.setItem('token', data.token)
+          localStorage.setItem('captain-token', data.token)
           navigate('/captain-home')
         }
     
@@ -60,12 +65,24 @@ const CaptainSignup = () => {
         setVehicleCapacity('')
         setVehicleType('')
     } catch (error) {
+        setLoading(false);
         console.log(error)
         toast.error(error.response.data.message || error.response.data.errors[0].msg)
+    }finally{
+        setLoading(false);
     }
 
 
   }
+
+
+  useEffect(() => {
+          if(token){
+              navigate("/captain-home")
+          }
+        }, [])
+
+
   return (
     <div className='py-5 px-5 h-screen flex flex-col justify-between'>
       <div>
@@ -172,10 +189,18 @@ const CaptainSignup = () => {
             </select>
           </div>
 
-          <button
+
+          {loading ? (
+            <button
+            className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
+          > <Loader /> Please Wait...</button>
+          ) : (
+            <button
             className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
           >Create Captain Account</button>
+          )}
 
+         
         </form>
         <p className='text-center'>Already have a account? <Link to='/captain-login' className='text-blue-600'>Login here</Link></p>
       </div>

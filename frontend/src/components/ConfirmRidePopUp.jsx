@@ -4,17 +4,20 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast';
 
 import { SocketContext } from '../context/SocketContext'
+import Loader from './Loader';
 
 const ConfirmRidePopUp = (props) => {
     const [ otp, setOtp ] = useState('')
     const navigate = useNavigate()
     const { socket } = useContext(SocketContext)
+    const [loading, setLoading] = useState(false);
 
 
     const submitHander = async (e) => {
         e.preventDefault()
 
         try {
+            setLoading(true);
             const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
                 params: {
                     rideId: props.ride._id,
@@ -37,9 +40,12 @@ const ConfirmRidePopUp = (props) => {
                 })
             }
         } catch (error) {
+            setLoading(false);
             console.log(error)
             toast.error(error.response.data.message || error.response.data.errors[0].msg)
             
+        }finally{
+            setLoading(false);
         }
     }
     return (
@@ -93,7 +99,13 @@ const ConfirmRidePopUp = (props) => {
                     <form onSubmit={submitHander}>
                         <input value={otp} onChange={(e) => setOtp(e.target.value)} type="text" className='bg-[#eee] px-6 py-4 font-mono text-lg rounded-lg w-full mt-3' placeholder='Enter OTP' />
 
-                        <button type='submit' className='w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Confirm</button>
+                        {loading ? (
+            <button type='submit' className='w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'><Loader /> Please Wait...</button>
+          ) : (
+            <button type='submit' className='w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Confirm</button>
+          )}
+
+                        
                         <button onClick={() => {
                             props.setConfirmRidePopupPanel(false)
                             props.setRidePopupPanel(false)

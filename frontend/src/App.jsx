@@ -67,9 +67,9 @@ const App = () => {
         <Route
           path="/users/logout"
           element={
-            <UserProtectWrapper>
+            // <UserProtectWrapper>
               <UserLogout />
-            </UserProtectWrapper>
+            // </UserProtectWrapper>
           }
         />
       </Routes>

@@ -17,9 +17,14 @@ import { SocketContext } from "../context/SocketContext";
 import { useContext } from "react";
 import { UserDataContext } from "../context/UserContext";
 import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 
 const Home = () => {
+
+    const [loading, setLoading] = useState(false);
+
+
     const [pickup, setPickup] = useState("");
     const [destination, setDestination] = useState("");
     const [panelOpen, setPanelOpen] = useState(false);
@@ -222,6 +227,7 @@ const Home = () => {
         setPanelOpen(false);
 
         try {
+            setLoading(true);
             const response = await axios.get(
                 `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
                 {
@@ -233,8 +239,11 @@ const Home = () => {
             );
             setFare(response.data);
         } catch (error) {
+            setLoading(false);
             console.log(error)
             toast.error(error.response.data.message || error.response.data.errors[0].msg)
+        }finally{
+            setLoading(false);
         }
 
     }
@@ -326,11 +335,21 @@ const Home = () => {
                         />
                     </form>
 
-                    <button onClick={findTrip}
+                    {loading ? (
+            <button onClick={findTrip}
+            className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
+        >
+            <Loader /> Please Wait...
+        </button>
+          ) : (
+            <button onClick={findTrip}
                         className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
                     >
                         Find Trip
                     </button>
+          )}
+
+                    
                 </div>
 
                 <div ref={panelRef} className="bg-white h-0 overflow-auto mb-1">

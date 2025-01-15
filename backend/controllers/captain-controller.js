@@ -59,15 +59,11 @@ module.exports.loginCaptain = async (req, res, next) => {
     
         const token = captain.generateAuthToken()
     
-        res.cookie("token", token, 
-        //     {
-        //     httpOnly : true,
-        //     secure : process.env.NODE_ENV === "production",
-        //     maxAge : 3600000
-        // }
-        )
-    
-        return res.status(200).json({token, captain})
+        return res.status(200).cookie("token", token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: "strict"
+        }).json({token, captain})
     } catch (error) {
         return res.status(400).json({message : error})
     }
@@ -85,9 +81,9 @@ module.exports.logoutCaptain = async(req, res) => {
     try {
         const token = req.cookies.token || req.headers.authorization.split(" ")[1];
         await blacklistTokenModel.create({token})
-        res.clearCookie("token")
+        // res.clearCookie("token")
     
-        res.status(200).json({message : "Logged out"})
+        res.status(200).cookie("token", "", {maxAge : 0}).json({message : "Logged out"})
     } catch (error) {
         return res.status(400).json({message : error})
     }

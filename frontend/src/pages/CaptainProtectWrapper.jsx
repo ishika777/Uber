@@ -4,12 +4,13 @@ import axios from 'axios'
 
 import { CaptainDataContext } from '../context/CaptainContext'
 import toast from 'react-hot-toast'
+import Loader from '../components/Loader'
 
 const CaptainProtectWrapper = ({
     children
 }) => {
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('captain-token')
     const navigate = useNavigate()
     const { setCaptain } = useContext(CaptainDataContext)
     const [ isLoading, setIsLoading ] = useState(true)
@@ -17,13 +18,13 @@ const CaptainProtectWrapper = ({
 
 
 
-    useEffect(async () => {
+    useEffect(() => {
 
+        if (!token) {
+            navigate('/captain-login')
+            return;
+        }
         const fetchData = async () => {
-            if (!token) {
-                navigate('/captain-login')
-                return;
-            }
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
                     headers: {
@@ -49,7 +50,7 @@ const CaptainProtectWrapper = ({
 
     if (isLoading) {
         return (
-            <div>Loading...</div>
+            <div><Loader /></div>
         )
     }
 
