@@ -48,10 +48,10 @@ const Home = () => {
     const [vehicleType, setVehicleType] = useState(null);
     const [ride, setRide] = useState(null);
 
-    const [currentPosition, setCurrentPosition] = useState({
-        lat: null,
-        lng: null,
-    });
+    // const [currentPosition, setCurrentPosition] = useState({
+    //     lat: null,
+    //     lng: null,
+    // });
 
     const navigate = useNavigate();
 
@@ -85,7 +85,6 @@ const Home = () => {
             navigate("/riding", {
                 state: {
                     ride,
-                    pos: currentPosition,
                 },
             }); // Updated navigate to include ride data
         });
@@ -223,9 +222,6 @@ const Home = () => {
     );
 
     async function findTrip() {
-        setVehiclePanel(true);
-        setPanelOpen(false);
-
         try {
             setLoading(true);
             const response = await axios.get(
@@ -238,6 +234,8 @@ const Home = () => {
                 }
             );
             setFare(response.data);
+            setVehiclePanel(true);
+            setPanelOpen(false);
         } catch (error) {
             setLoading(false);
             console.log(error)

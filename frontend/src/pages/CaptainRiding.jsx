@@ -1,5 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 
@@ -7,19 +6,31 @@ import FinishRide from '../components/FinishRide'
 import LiveTracking from '../components/LiveTracking'
 
 import { SocketContext } from '../context/SocketContext'
+import { useLocation } from 'react-router-dom'
 
 const CaptainRiding = () => {
 
-    const [ finishRidePanel, setFinishRidePanel ] = useState(false)
-    const finishRidePanelRef = useRef(null)
     const location = useLocation()
     const rideData = location.state?.ride
-    const { socket } = useContext(SocketContext)
-    // const position = location.state?.pos
 
-    // socket.on('send-location', data => {
-        
-    // })
+    const [ finishRidePanel, setFinishRidePanel ] = useState(false)
+    const finishRidePanelRef = useRef(null)
+    const [currLocation, setCurrLocation] = useState(null);
+    const { socket } = useContext(SocketContext)
+    
+    useEffect(() => {
+        const getLocation = () => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                  setCurrLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  })
+            })
+        }
+        getLocation();
+    }, [])
+
+
 
     useGSAP(function () {
         if (finishRidePanel) {
@@ -45,7 +56,7 @@ const CaptainRiding = () => {
             </div> */}
             
             <div className={`h-[80%] w-screen top-0 ${finishRidePanel ? "z-0" : "" }`}>
-                <LiveTracking />
+                <LiveTracking capState={currLocation} />
             </div>
 
             <div className='h-1/5 p-6 flex items-center justify-between relative bg-yellow-400 pt-10'>

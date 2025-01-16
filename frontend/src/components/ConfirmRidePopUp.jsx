@@ -42,7 +42,7 @@ const ConfirmRidePopUp = (props) => {
             otp: otp,
           },
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("captain-token")}`,
           },
         }
       );

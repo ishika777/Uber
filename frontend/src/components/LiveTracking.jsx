@@ -1,19 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap  } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
 
 import { SocketContext } from '../context/SocketContext';
 
-const LiveTracking = React.memo(() => {
+
+
+
+
+const LiveTracking = React.memo(({capState, userState}) => {
 
     const { socket } = useContext(SocketContext)
+    const navigate = useNavigate();
+
+    const userToken = localStorage.getItem("token");
+
     const [currentPosition, setCurrentPosition] = useState({
         lat: null,
         lng: null
     });
 
-  const navigate = useNavigate();
+
+  const customIcon = L.icon({
+    iconUrl: `${userToken ? "./new blue.png" : "./red-marker.png"}`, 
+    iconSize: userToken ? [72, 84] :[64, 84],
+    popupAnchor: userToken ? [-5, -30] :[-2, -30],
+  });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -54,9 +68,15 @@ const LiveTracking = React.memo(() => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
+        {userState && console.log(userState, "hello")}
+        {capState && console.log(capState, "hi")}
+        {userState && capState && console.log(capState, userState, "both")}
       {currentPosition && (
-        <Marker position={currentPosition || [28.6490624, 77.2636672]} 
-        interactive={true}
+        <Marker 
+            position={currentPosition || [28.6490624, 77.2636672]} 
+            interactive={true}
+            icon={customIcon}
+            
         >
           <Popup>You are here!</Popup>
         </Marker>

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Link, useLocation,useNavigate } from 'react-router-dom' // Added useLocation
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import LiveTracking from '../components/LiveTracking'
 
@@ -10,10 +10,23 @@ const Riding = () => {
     const { ride } = location.state || {} // Retrieve ride data
     const { socket } = useContext(SocketContext)
     const navigate = useNavigate()
+    const [currLocation, setCurrLocation] = useState(null);
 
     socket.on("ride-ended", () => {
         navigate('/home')
     })
+
+    useEffect(() => {
+        const getLocation = () => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                  setCurrLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  })
+            })
+        }
+        getLocation();
+    }, [])
 
 
     return (
@@ -24,7 +37,7 @@ const Riding = () => {
             </Link>
             
             <div className='h-1/2 w-screen'>
-                <LiveTracking />
+                <LiveTracking userState={currLocation} />
             </div>
 
             <div className='h-1/2 p-4 w-full'>

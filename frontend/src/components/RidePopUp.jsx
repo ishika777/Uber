@@ -42,19 +42,6 @@ const RidePopUp = (props) => {
                             <div>
                                 <h3 className="text-lg font-medium">562/11-A</h3>
                                 <p className="text-sm -mt-1 text-gray-600">
-                                    {/* Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae?
-                                    Lorem ipsum dt pariatur dolor beatae? */}
                                     {props.ride?.pickup}
                                 </p>
                             </div>
